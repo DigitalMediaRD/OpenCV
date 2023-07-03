@@ -31,6 +31,6 @@
 - Show
     - 在程序语言中实时预览```Read()```载入内存的图像信息
 
-
+[图像数据的保存](https://blog.csdn.net/u010089444/article/details/52738479)
 
 
