@@ -66,6 +66,7 @@ Conda移植虚拟环境到其他设备的[操作方法](https://blog.csdn.net/bu
         pip install opencv-python
 
 - [OpenCV官方安装包](https://opencv.org/releases/)，解压后将```\build\python\cv2```内的```cv.pyd```文件复制到python安装路劲下的```\Lib\site-packages\cv2```中
+        在命令行窗口界面使用pip安装opencv_contrib_python
         若执行import cv2 命令无报错，则说明安装成功
 
 
