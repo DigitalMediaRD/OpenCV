@@ -1,4 +1,3 @@
-# OpenCV
 # 基础语法
 - [AUTOMATE THE BORING STUFF WITH PYTHON](https://automatetheboringstuff.com/2e/chapter0/)，学习没有捷径，建议尝试阅读英文原版；若实在吃力可阅读[中文译版](https://kdocs.cn/l/cvONqPjqwC5d)
 
