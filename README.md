@@ -16,6 +16,8 @@
 
 ### 其他设置
 
+[其他](https://blog.csdn.net/javastart/article/details/102563461)
+
 - 在线资源库更换为国内资源：打开 ```Conda窗口界面``` ，永久更换在线资源链接输入下列语句之一
 
         # 清华源
