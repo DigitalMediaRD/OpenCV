@@ -5,12 +5,14 @@
 
 ## Conda
 
-其特点在于可创建多个不同版本的python环境实现互相独立的多环境管理；缺点在于多个虚拟环境的创建将占用大量硬盘空间，并且当涉及其他需要额外进行编译操作的程序时，操作处理起来略微繁琐.安装后在开始菜单找到```Anaconda/Minconda```的文件夹，并点击文件夹内的```Spyder```图标启动编译器或```Anaconda Prompt (Miniconda3)```图标打开命令行交互窗口
+其特点在于可创建多个不同版本的python环境实现互相独立的多环境管理；缺点在于多个虚拟环境的创建将占用大量硬盘空间，并且当涉及其他需要额外进行编译操作的程序时，操作处理起来略微繁琐
 
 
 - [Anaconda](https://www.anaconda.com/)/[Minconda](https://docs.conda.io/en/latest/miniconda.html)，作用类似，前者相比后者集成了其他开发工具和可视化界面的操作；后者仅包括精简的命令行窗口功能
 
 	- [英文文档](https://docs.conda.io/projects/conda/en/latest/user-guide/index.html)/[中文文档](https://anaconda.org.cn/anaconda/user-guide/getting-started/)
+
+安装后在开始菜单找到```Anaconda/Minconda```的文件夹，并点击文件夹内的```Spyder```图标启动编译器或```Anaconda(Miniconda3) Prompt```图标打开命令行交互窗口
 
 - [Python资源库在线下载命令](https://www.runoob.com/w3cnote/python-pip-install-usage.html)
 
@@ -68,6 +70,7 @@ Conda移植虚拟环境到其他设备的[操作方法](https://blog.csdn.net/bu
         pip install opencv-python
 
 - [OpenCV官方安装包](https://opencv.org/releases/)，解压后将```\build\python\cv2```内的```cv.pyd```文件复制到python安装路劲下的```\Lib\site-packages\cv2```中
+
         在命令行窗口界面使用pip安装opencv_contrib_python
         若执行import cv2 命令无报错，则说明安装成功
 
