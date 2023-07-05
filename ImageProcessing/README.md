@@ -57,9 +57,6 @@
 
             cv2.VideoWriter_fourcc('X','V','I','D')#XVID的MPEG-4编码格式，后缀为.avi
 
-### 摄像头捕获
+### CameraCapture
 待补充
-
-
-
 
