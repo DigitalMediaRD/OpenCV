@@ -34,8 +34,7 @@
 [图像数据的保存](https://blog.csdn.net/u010089444/article/details/52738479)
 
 
-## VideoOperation
-### Read、Write
+### VideoRead、Write
 计算机对视频的操作逻辑与图像大体一致，由于文件类型不一样导致存在细节上的区别
 
 - Read
@@ -93,3 +92,6 @@
 ```cv2.split()```拆分方法
 
 合并
+
+
+
