@@ -36,8 +36,8 @@ WriteVideo()
 def CameraCapture():
     vc=cv2.VideoCapture(0)
     fps=30
-    size = (int(vc.get(cv2.CAP_PROP_FRAME_HEIGHT)), int(vc.get(cv2.CAP_PROP_FRAME_WIDTH)))
-    vw = cv2.VideoWriter('res/videoWrite.mp4', cv2.VideoWriter_fourcc('X','2','6','4'), fps, size)
+    size=(int(vc.get(cv2.CAP_PROP_FRAME_WIDTH)),int(vc.get(cv2.CAP_PROP_FRAME_HEIGHT)))
+    vw = cv2.VideoWriter('res/videoWrite.mp4', cv2.VideoWriter_fourcc(*'mp4v'), fps, size)
     success, frame = vc.read()
     while success:
         vw.write(frame)
