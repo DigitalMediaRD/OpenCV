@@ -110,8 +110,8 @@
 
 
 
-# ImageConverting
-## ColorConverting
+# 4 ImageConverting
+## 4.1 ColorConverting
 色彩空间作为图像在计算机内的存储方式，其存在若干分类。不同种类分别有着擅长解决的问题领域
 - RGB
 - GRAY
@@ -133,15 +133,15 @@
     cv2.COLOR_RGB2YCrCb
 
 
-### RGB
+### 4.1.1 RGB
 Red、Green、Blue基本颜色代表图像的色彩组成，OpenCV中的色彩空间为BGR，即通道顺序为B、G、R表示图像。
 
-### GRAY
+### 4.1.2 GRAY
 8位灰度空间，取值范围[0,255]，色彩空间转换的默认计算公式为
 
     Gray=0.299R+0.587G+0.114B
 
-### YCrCb
+### 4.1.3 YCrCb
 亮度Y、红色Cr、蓝色Cb表示，RGB色彩空间转换的默认计算公式为
 
     Y=0.299R+0.587G+0.114B
@@ -155,7 +155,7 @@ Red、Green、Blue基本颜色代表图像的色彩组成，OpenCV中的色彩�
     delta=0.5 # 单精度图像
 
 
-### HSV
+### 4.1.4 HSV
 色调Hue、饱和度Saturation、和亮度Value表示，色调取值范围[0<sup>o</sup>，360<sup>o</sup>]，从红色开始按逆时针方向计算
 
 饱和度S表示颜色接近光谱色的程度，光谱中白光比例越低饱和度越高，颜色越深。取值范围为[0,1]
@@ -182,7 +182,7 @@ RGB色彩空间转换的计算公式
 若H<0，则H=H+360
 
 
-
+## 4.2 GeometryConverting
 
 
 
