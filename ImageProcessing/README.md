@@ -105,3 +105,86 @@
 两张图像混合操作但相加不再是简单的直接叠加，而是混合模式下设置两张图片的所占比重不同实现存在主次关系的图像混合，计算公式
 
     img1*alpha+img2*beta+gamma
+
+
+
+
+
+# ImageConverting
+## ColorConverting
+色彩空间作为图像在计算机内的存储方式，其存在若干分类。不同种类分别有着擅长解决的问题领域
+- RGB
+- GRAY
+- XYZ
+- YCrCb
+- HSV
+
+转换函数```cv2.cvtColor()```基本格式为
+
+    output=cv2.cvtColor(input,code[,dstCn])# dstCn表示目标图像的通道数
+    # code转换类型如下
+    cv2.COLOR_BGR2RGB
+    cv2.COLOR_BGR2Gray
+    cv2.COLOR_BGR2HSV
+    cv2.COLOR_BGR2YCrCb
+    cv2.COLOR_RGB2BGR
+    cv2.COLOR_RGB2Gray
+    cv2.COLOR_RGB2HSV
+    cv2.COLOR_RGB2YCrCb
+
+
+### RGB
+Red、Green、Blue基本颜色代表图像的色彩组成，OpenCV中的色彩空间为BGR，即通道顺序为B、G、R表示图像。
+
+### GRAY
+8位灰度空间，取值范围[0,255]，色彩空间转换的默认计算公式为
+
+    Gray=0.299R+0.587G+0.114B
+
+### YCrCb
+亮度Y、红色Cr、蓝色Cb表示，RGB色彩空间转换的默认计算公式为
+
+    Y=0.299R+0.587G+0.114B
+    Cr=0.713(R-Y)+delta
+    Cb=0.564(B-Y)+delta
+
+根据图像类型的差异，delta的取值也不同
+    
+    delta=128 # 8位图像
+    delta=32767 # 16位图像
+    delta=0.5 # 单精度图像
+
+
+### HSV
+色调Hue、饱和度Saturation、和亮度Value表示，色调取值范围[0<sup>o</sup>，360<sup>o</sup>]，从红色开始按逆时针方向计算
+
+饱和度S表示颜色接近光谱色的程度，光谱中白光比例越低饱和度越高，颜色越深。取值范围为[0,1]
+
+亮度V取值为[0,1]
+
+RGB色彩空间转换的计算公式
+
+    V=max(R，G，B)
+    根据V的取值，S的公式也不同
+    if V!=0
+        S=(V-min(R，G，B))/V
+    else
+        S=0
+
+    根据V的取值，H的公式也不同
+    if V==R
+        H=60(G-B)/(V-min(R，G，B))
+    else if V=G
+        H=120+ (60(B-R)/(V-min(R，G，B)))
+    else if V=B
+        H=240+ (60(R-G)/(V-min(R，G，B)))
+
+若H<0，则H=H+360
+
+
+
+
+
+
+
+
