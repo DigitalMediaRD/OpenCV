@@ -183,8 +183,20 @@ RGB色彩空间转换的计算公式
 
 
 ## 4.2 GeometryConverting
+### 4.2.1 Scale
+缩放函数表达式
 
+    output=cv2.resize(input,dsize[,dst[,fx[,fy[,interpolation]]]])
+    dsize # 转换后的图像大小
+    fx # 水平方向的缩放比例
+    fy # 垂直方向的缩放比例
+    interpolation # 插值方式
 
+根据dsize参数是否为空，也存在不同的参数要求
+- 不为None，不管是否设置参数fx、fy，转换后的图片大小都由dsize来确定
+- 为None，参数fx和fy不能为0。则转换后的图像宽度为```round(原始宽度*fx)```，高度为```round(原始高度*fy)```
 
+### 4.2.2 Flip
 
+```flipCode```代表翻转类型，为0时绕x轴翻转，大于0时绕y轴翻转；小于0的整数时同时绕x和y翻转
 
