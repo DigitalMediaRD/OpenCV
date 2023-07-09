@@ -253,7 +253,7 @@ Mapping
 
 将input和output图像中分别取三个点作为平行四边形的左上角、右上角和左下角，按原图和目标图像与3个点的坐标关系计算所有像素的转换矩阵
 
-Perspective
+### 4.2.3 Perspective
 
 函数表达式
 
