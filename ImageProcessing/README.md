@@ -200,3 +200,67 @@ RGB色彩空间转换的计算公式
 
 ```flipCode```代表翻转类型，为0时绕x轴翻转，大于0时绕y轴翻转；小于0的整数时同时绕x和y翻转
 
+
+
+
+
+### 4.2.3 Affine
+*仿射* 函数表达式
+
+    cv2.warpAffine(input,M,dsize[,dst[,flags[,borderMode[,borderValue]]]])
+
+- M是2x3的转换矩阵，调整矩阵内对应的元素值可实现平移、旋转等多种操作
+    $$
+    \left[
+    \begin{matrix}
+        h & 0 & m \\\\
+        0 & v & n
+    \end{matrix}
+    \right] 
+    $$
+- dsize为转换后的图像大小
+- flags、borderMode、borderValue为带默认值的参数，通常可省略
+
+
+Translation
+
+仿射矩阵M的元素m、n控制平移
+- m>0，图像右移，反之左移
+- n>0，图像下移，反之上移
+
+Scale
+
+仿射矩阵M的元素h、v控制缩放
+- h控制水平方向的缩放
+- v控制垂直方向的缩放
+
+Rotation
+
+函数表达式
+
+    cv2.getRotationMatrix2D(center,angle,sacle)
+
+- center控制旋转的中心坐标，组成结构包含两个变量
+- angle控制旋转角度，正数逆时针，反之顺时针
+- sacle控制缩放
+
+
+
+Mapping
+函数表达式
+
+    cv2.getAffineTransform(input,output)
+
+将input和output图像中分别取三个点作为平行四边形的左上角、右上角和左下角，按原图和目标图像与3个点的坐标关系计算所有像素的转换矩阵
+
+Perspective
+
+函数表达式
+
+    cv2.warpPerspective(input,M,dsize[,dst[,flags[,borderMode[,borderValue]]]])
+
+
+
+
+
+
