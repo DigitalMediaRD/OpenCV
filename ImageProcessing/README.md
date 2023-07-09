@@ -262,5 +262,19 @@ Mapping
 
 
 
+## 4.3 ImageBlur
+图像模糊也称为平滑处理，将一点的像素值调整为与周边像素点相近的值，消除噪声和边缘
 
+### 4.3.1 Meanfiltering
+
+以当前像素点为中心，周边N*N个像素点的平均值替代当前点的像素值
+
+
+```cv2.blur```函数表达式
+
+    cv2.blur(input,ksize [,anchor [,borderType]])
+
+- ksize为卷积核大小，也就是周边N*N个像素点的区域
+- anchor为锚点，默认值为(-1，-1)，表示锚点位于卷积核中心
+- borderType为边界处理方式
 
