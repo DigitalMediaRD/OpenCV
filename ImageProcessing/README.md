@@ -279,3 +279,70 @@ Mapping
 - anchor为锚点，默认值为(-1，-1)，表示锚点位于卷积核中心
 - borderType为边界处理方式
 
+### 4.3.2 GaussianFilter
+
+按像素点与中心点的不同，赋予像素点不同的权重值。越靠近中心点权重越大，反之越小；根据权重值计算邻域内所有像素点的和，作为中心点的值
+
+```cv2.GaussianBlur```函数表达式
+
+    cv2.GaussianBlur(input,ksize, sigmaX [,sigmaY [,borderType]])
+
+- sigmaX为水平方向上的权重值
+- sigmaY为垂直方向上的权重值
+- 若sigmaX与sigmaY均为0，则默认公式如下
+    
+    sigmaX=0.3*((width-1)*0.5-1)+0.8
+    sigmaY=0.3*((height-1)*0.5-1)+0.8
+
+### 4.3.3 BoxFilter
+基于Meanfiltering均值滤波，可选择是否对滤波结果归一化
+- 归一化则滤波结果为邻域内点的像素值总和的平均值
+- 未归一化则滤波结果为像素值总和
+
+```cv2.boxFilter```函数表达式
+
+    cv2.boxFilter(input,ddepth,ksize [,anchor[,normalize [,borderType]]])
+
+- ddepth为目标[图像深度](https://baike.baidu.com/item/%E5%9B%BE%E5%83%8F%E6%B7%B1%E5%BA%A6/7293591)，一般使用-1表示与原图像的深度一致
+- normalize为True时执行归一化操作
+
+### 4.3.4 MedianFilter
+
+将领域内所有像素值排序，取中间值为领域中心点的像素值
+
+```cv2.medianBlur```函数表达式
+
+    cv2.medianBlur(input,ksize)
+
+- ksize若设置为大于1的奇数，则代表为正方形大小的卷积核；否则需把ksize设置为包含行列数目的元组格式
+
+### 4.3.5 BilateralFilter
+
+若像素点与当前点色差较小，则赋予较大权重值；反之赋予较小权重值
+
+```cv2.bilateralFilter```函数表达式
+
+    cv2.bilateralFilter(input,d,sigmaColor,sigmaSpace[,borderType])
+
+- d表示以当前点为中心的邻域直径
+- sigmaColor为双边滤波选择的色差范围
+- sigmaSpace为空间坐标中的sigma值，值越大表示越多像素点参与滤波计算。当d>0时忽略sigmaSpace，由d决定邻域大小；否则d由sigmaSpace计算得出，与sigmaSpace成比例
+
+### 4.3.6 TwoDimensionConvolution
+
+2D卷积核的自定义函数表达式
+
+    cv2.filter2D(input,ddepth,kernel,anchor[,borderType])
+
+- ddepth为目标图像深度,一般使用-1表示与原图像的深度一致
+- kernel为单通道卷积核(一维数组结构)
+- anchor图像锚点
+- delta修正值，若存在将加上该值作为最终滤波结果
+- borderType为边界处理方式
+
+
+
+
+
+
+
