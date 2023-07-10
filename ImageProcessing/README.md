@@ -275,6 +275,7 @@ Mapping
     cv2.blur(input,ksize [,anchor [,borderType]])
 
 - ksize为卷积核大小，也就是周边N*N个像素点的区域
+    - ***与图像大小的关系***
 - anchor为锚点，默认值为(-1，-1)，表示锚点位于卷积核中心
 - borderType为边界处理方式
 
