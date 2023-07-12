@@ -340,6 +340,41 @@ Mapping
 - delta修正值，若存在将加上该值作为最终滤波结果
 - borderType为边界处理方式
 
+## 4.4 ThresholdProcessing
+阈值处理用以剔除图像中像素值高于或低于指定值的像素点
+
+### 4.4.1 GlobalThresholdProcessing
+将像素值大于阈值的像素值设置为255，其他像素值设置为0；或大于阈值的像素值设置为0，其他像素值设置为255
+
+全局阈值处理函数表达式
+
+    cv2.threshold(input,thresh,maxval,type):
+        return retval, output
+
+- retval为返回的阈值
+- thresh为设置的阈值标准
+- maxval为阈值类型为THRESH_BINARY和THRESH_BINARY_INV时使用的最大值
+- type为阈值类型
+
+
+### 4.4.2 AdaptiveThresholdProcessing
+
+计算每个像素点邻域的加权平均值来确定阈值。并用该阈值处理当前像素点。适用于色彩明暗差异较大的图像
+
+
+自适应阈值处理函数表达式
+
+    cv2.adaptiveThreshold(input,maxValue,adaptiveMethod,thresholdType,blockSize,C):
+        
+- maxValue为最大值
+- adaptiveMethod为自适应方法参数，常见的包括
+    - cv2.ADAPTIVE_THRESH_MEAN_C:邻域中所有像素点的权重值相同
+    - cv2.ADAPTIVE_THRESH_GAUSSIAN_C:邻域中所有像素点的权重值与其到中心点的距离有关，通过高斯方程可计算各个点的权重值
+- thresholdType为阈值处理方式
+- blockSize为计算局部阈值的邻域的大小
+- C为常量，自适应阈值为blockSize指定邻域的加权平均值减去C
+
+
 
 
 
