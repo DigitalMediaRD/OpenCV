@@ -364,7 +364,7 @@ Mapping
 
 自适应阈值处理函数表达式
 
-    cv2.adaptiveThreshold(input,maxValue,adaptiveMethod,thresholdType,blockSize,C):
+    cv2.adaptiveThreshold(input,maxValue,adaptiveMethod,thresholdType,blockSize,C)
         
 - maxValue为最大值
 - adaptiveMethod为自适应方法参数，常见的包括
@@ -373,6 +373,81 @@ Mapping
 - thresholdType为阈值处理方式
 - blockSize为计算局部阈值的邻域的大小
 - C为常量，自适应阈值为blockSize指定邻域的加权平均值减去C
+
+
+## 4.5 MorphologicalTransformations
+
+### 4.5.1 MorphologicalManipulation
+会使用一个内核遍历图像，根据内核和图像的位置关系决定内核中心的图像像素点的输出结果。内核可以是自定义的矩阵形式，也可以是调用内置函数返回的形式
+
+自适应阈值处理函数表达式
+
+    cv2.getStructuringElement(shape,ksize)
+
+- shape为内核形状，包括
+    - cv2.MORPH_RECT矩形
+    - cv2.MORPH_CROSS十字形
+    - cv2.MORPH_ELLIPSE椭圆形
+- ksize为内核大小
+
+
+### 4.5.2 Erosion
+腐蚀操作遍历图像时，根据内核和图像的位置决定内核中心对应的图像像素点的输出结果。示意图中，0表示背景部分，1表示前景部分；灰色方块表示大小为3x3的矩形内核。腐蚀操作时，依次将内核中心对准每一个单元格，根据内核和前景的位置关系决定当前单元格的值
+- 当内核部分或全部处于前景外时，内核中心对应单元格的值设置为0
+- 内核完全处于前景内部时，内核中心对应单元格的值才设置为1
+
+腐蚀处理函数表达式
+
+    cv2.erode(input,kernel[,anchor[,iterations[,borderType[,borderValue]]]])
+
+- kernel为内核
+- anchor为锚点，默认值为(-1，-1)，表示锚点位于中心
+- iterations为腐蚀操作的迭代次数
+- borderType为边界处理方式
+- borderValue为边界值，由OpenCV自动确定
+
+
+
+### 4.5.3 Dilation
+与腐蚀操作相反，对图片边界进行扩张
+
+- 当内核完全处于前景外时，内核中心对应单元格的值设置为0
+- 内核部分处于前景内部时，内核中心对应单元格的值设置为1
+
+膨胀处理函数表达式
+
+    cv2.dilate(input,kernel[,anchor[,iterations[,borderType[,borderValue]]]])
+
+参数含义与腐蚀相同
+
+### 4.5.4 MorphologyEx
+高级形态操作基于腐蚀和膨胀运算，包括开运算、闭运算、形态学梯度运算等
+
+MorphologyEx处理函数表达式
+
+    cv2.morphologyEx(input,op,kernel[,anchor[,iterations[,borderType[,borderValue]]]])
+
+- op为操作类型
+    - cv2.MORPH_ERODE执行腐蚀
+    - cv2.MORPH_DILATE执行膨胀
+参数含义与上述相同
+
+OpenOperation开运算
+- 先腐蚀再膨胀
+
+CloseOperation闭运算
+- 先膨胀再腐蚀
+
+MorphologicalGradient形态学梯度运算
+- 用膨胀操作减去腐蚀操作
+
+BlackHat黑帽运算
+- 图像的闭运算减去原图像
+
+TopHat礼貌运算
+- 原图像减去开运算结果
+
+
 
 
 
