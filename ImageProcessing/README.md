@@ -450,7 +450,89 @@ TopHat礼貌运算
 
 
 
+# 5 Edges&Contours
+## 5.1 EdgeDetection
+勾勒出图像灰度值发生急剧变化的部分，检测结果为黑白图像，白色线条表示边缘
+### 5.1.1 LaplacianEdgeDetection
+使用图像矩阵与拉普拉斯核进行卷积运算，计算图像中任意一点与其在水平方向和垂直方向上4个相邻点平均值的差值
 
+Laplacian函数表达式
+
+    cv2.Laplacian(input,ddepth[,ksize[,scale[,delta[,borderType]]]])
+
+- ddepth为目标图像深度
+- ksize用于计算二阶导数滤波器的系数，要求为正奇数
+- scale为可选比例因子
+- delta为添加到边缘检测结果中的可选增量值
+- borderType为边界处理方式
+
+### 5.1.2 SobelEdgeDetection
+使用高斯滤波和微分进行卷积运算，结果具有一定的抗噪性
+
+Sobel函数表达式
+
+    cv2.Sobel(input,depth,dx,dy[,ksize[,scale[,delta[,borderType]]]])
+
+- ddepth为目标图像深度
+- dx为导数x的阶数
+- dy为导数y的阶数
+- ksize为扩展的Sobel内核大小，要求为1、3、5、7之一
+- scale为可选比例因子
+- delta为添加到边缘检测结果中的可选增量值
+- borderType为边界处理方式
+
+### 5.1.3 CannyEdgeDetection
+比上述检测方法复杂，且上述两种方法可能损失过多的边缘信息或存在很多噪声。Canny检测算法步骤如下
+
+- 使用高斯滤波去除图像噪声
+- 使用Sobel核进行滤波，计算梯度
+- 在边缘使用非最大值抑制
+- 对检测出的边缘使用双阈值以除去假阳性
+- 分析边缘之间的连接性，保留真正的边缘，消除不明显的边缘
+
+
+Canny函数表达式
+
+    cv2.Canny(input,thershold1,thershold2,[,apertureSize[,L2gradient]])
+
+- ddepth为目标图像深度
+- thershold1为第一阈值
+- thershold2为第二阈值
+- apertureSize为计算梯度时使用的Sobel核大小
+- L2gradient为标志
+
+
+## 5.2 ImageContours
+图像轮廓指由位于边缘、连续、具有相同颜色和强度的点构成的曲线，可用于形状分析和图像检测识别
+### 5.2.1 FindContours
+从二值图像中查找轮廓，findContours函数表达式
+
+    cv2.findContours(input,mode,method[,offset])
+        return contours,hierarchy
+
+
+- contours为返回的轮廓
+- hierarchy为返回的轮廓层次结构
+- mode为轮廓检索模式
+- method为轮廓的近似方法
+- offset为每个轮廓点移动的可选偏移量
+
+### 5.2.2 DrawContours
+drawContours函数表达式
+
+    cv2.drawContours(input,contours,contoursIdx,color[,thickness[,lineType[,hierarchy[,maxLevel[,offset]]]]])
+
+- contours为绘制的轮廓
+- contoursIdx为绘制的轮廓的索引，大于等于0时绘制对应的轮廓，负数表示绘制所有轮廓
+- hierarchy为返回的轮廓层次结构
+- color为BGR格式的颜色结构元组
+- thickness控制线条粗细
+- lineType控制线型
+- hierarchy为返回的轮廓层次结构
+- maxLevel为可绘制的最大轮廓层次深度
+- offset控制轮廓偏移位置
+
+### 5.2.3 ContoursFeature
 
 
 
