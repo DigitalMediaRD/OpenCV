@@ -533,6 +533,94 @@ drawContours函数表达式
 - offset控制轮廓偏移位置
 
 ### 5.2.3 ContoursFeature
+轮廓的矩包含了轮廓的各种几何特征，例如面积、位置、角度等
+
+moments函数表达式返回轮廓的矩
+
+    cv2.moments(array[,binaryImage])
+        return ret
+
+- ret为轮廓的矩，类型为字典
+- array表示轮廓的数组
+- binaryImage为True时，会将array对象中所有的非0值设置为1    
+
+contourArea函数表达式返回轮廓的面积
+
+    cv2.contourArea(contour[,oriented])
+        return area
+
+- area为轮廓的面积
+- contour表示轮廓
+- oriented为True时，返回值的正与负表示轮廓是顺时针还是逆时针；为False时返回值为绝对值
+
+
+arcLength函数表达式返回轮廓的长度
+
+    cv2.arcLength(contour,closed)
+        return length
+
+- length为长度
+- contour表示轮廓
+- closed为True时，表示轮廓封闭
+
+approxPolyDP函数表达式返回轮廓的近似多边形
+
+    cv2.approxPolyDP(contour,epsilon,closed)
+        return ret
+
+- ret为近似多边形
+- contour表示轮廓
+- epsilon为精度，表示近似多边形接近轮廓的最大距离
+- closed为True时，表示轮廓封闭
+
+
+
+conveHull函数表达式返回轮廓的近似多边形
+
+    cv2.conveHull(contour[,clockwise[,returnPoints]])
+        return hull
+
+- hull为返回的凸包，```numpy.ndarry```对象
+- contour表示轮廓
+- clockwise为True时凸包顺时针，为False时逆时针
+- returnPoints为True返回hull包含的凸包关键点坐标，False时返回凸包关键件在轮廓的索引
+
+
+
+boundingRect函数表达式返回可包含轮廓大小的矩形
+
+    cv2.boundingRect(contour)
+        return rectangle
+
+- rectangle返回直边界矩形，四元组类型
+    - 左上角x坐标、左上角y坐标、宽度、高度
+- contour表示轮廓
+
+
+minAreaRect函数表达式返回可包含轮廓大小的最小矩形
+
+    cv2.minAreaRect(contour)
+        return box
+
+- box返回旋转矩形，三元组类型
+    - 矩阵中心点x坐标、矩阵中心点y坐标，宽度、高度，旋转角度
+- contour表示轮廓
+
+boxPoints函数表达式实现矩形的绘制
+
+    cv2.boxPoints(box)
+        return points
+
+- points为返回的矩形顶点坐标，浮点型
+
+
+
+
+
+
+
+
+
 
 
 
