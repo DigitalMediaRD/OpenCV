@@ -615,14 +615,40 @@ boxPoints函数表达式实现矩形的绘制
 
 
 
+## 5.3 HoughTransform
+### 5.3.1 HoughLines
+检测图像中的直线，表达式如下
 
+    cv2.HoughLines(image,rho,theta,threshold)
+        return lines
 
+- lines为返回的直线图案
+- image要求图像类型为8位单通道二值图像，需要在霍夫变换前先进行处理
+- rho为距离精度，默认为1，像素单位
+- theta为角度精度，通常为π/180°
+- threshold为阈值，越小检测出的直线越多
 
+利用概率活肤变换检测图像中的直线，表达式如下
 
+    cv2.HoughLinesP(image,rho,theta,threshold[,minLineLength[,maxLineGap]])
+        return lines
 
+- minLineLength为可接受的直线最小长度，默认0
+- maxLineGap位共线线段之间的最大间隔，默认为0
 
+### 5.3.2 HoughCircles
+检测图像中的圆，表达式如下
 
+    cv2.HoughCircles(image,method,dp,minDist[,param1[,param2[,minRadius[,maxRadius]]]])
+        return circles
 
-
-
+- circles为返回的圆图案
+- image要求图像类型为8位单通道二值图像，需要在霍夫变换前先进行处理
+- method为查找方法
+- dp为累加器分辨率，值与图像分辨率成反比。取1时相同，取2时累加器的宽高为输入图像的一半
+- minDist为圆心间的最小距离
+- param1对应Canny边缘检测的高阈值，默认100
+- param2为圆心位置必须到达的投票数，值越大检测出的圆越少，默认100
+- minRadius为最小圆半径，低于最小值的圆不会被检测到
+- maxRadius为最大圆半径，大于最大值的圆不会被检测到
 
