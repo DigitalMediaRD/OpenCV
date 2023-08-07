@@ -652,3 +652,46 @@ boxPoints函数表达式实现矩形的绘制
 - minRadius为最小圆半径，低于最小值的圆不会被检测到
 - maxRadius为最大圆半径，大于最大值的圆不会被检测到
 
+# 6 Histogram
+## 6.1 Foundation
+直方图统计图像内各个灰度级出现的次数，横轴表示图像灰度级别，纵轴表示像素灰度级的数量
+
+- RANGE 
+- BINS：灰度级分组，将256个灰度量级划分为若干个数量相等的组
+- DIMS
+
+### 6.1.1 Hist
+
+绘制函数如下
+
+    matplotlib.pylot.hist(src,bins)
+
+- src为图像数据，要求为一维数组
+    - 通过ravel()将三维数组转换为一维
+- bins为分组数量
+
+### 6.1.2 CalcHist
+OpenCV的直方图查找表达式如下
+
+    cv2.calcHist(image,channels,mask,histSize,ranges)
+        return hist
+
+
+- hist为返回的直方图，大小256的一维数组形式，保存了各个灰度级的数量
+- image为原图像，输入形式为[image]
+- channels为图像通道，灰度图像为[0]，BGR图像则包含三个通道
+- mask为掩模图像，为None时统计整个图像
+- histSize()为BINS的值，实际参数形式例如[256]
+- ranges为像素值范围，8位灰度图像为[0,255]
+
+### 6.1.3 Histogram
+NumPy的直方图查找表达式如下
+
+    np.histogram(image,bins,ranges)
+        return hist,edges
+
+
+- hist为返回的直方图，大小256的一维数组形式，保存了各个灰度级的数量
+- bins为灰度级分组数量
+- range为像素值范围
+- edges为返回的灰度级分组数量边界值
