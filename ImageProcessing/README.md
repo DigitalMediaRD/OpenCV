@@ -695,3 +695,24 @@ NumPy的直方图查找表达式如下
 - bins为灰度级分组数量
 - range为像素值范围
 - edges为返回的灰度级分组数量边界值
+
+
+
+## 6.2 HistogramEqualization
+### 6.2.1 NormalHistogramEqualization
+将原图像的灰度级均匀映射到全部灰度级范围内，OpenCV的均衡化表达式如下
+
+    cv2.equalization(src)
+        return img
+
+- img为均衡化后的图像
+
+### 6.2.2 ContrastLimitedAdaptiveHistogramEqualization
+限制对比度自适应直方图均衡化，OpenCV的均衡化表达式如下
+
+    cv2.createCLAHE([clipLimit[,tileGridSize]])
+        return retval
+
+- retval为返回的CLAHE对象
+- clipLimit为对比度受限的阈值，默认40.0
+- tileGridSize为直方图均衡化的网格大小，默认值为(8,8)
