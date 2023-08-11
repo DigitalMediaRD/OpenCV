@@ -716,3 +716,38 @@ NumPy的直方图查找表达式如下
 - retval为返回的CLAHE对象
 - clipLimit为对比度受限的阈值，默认40.0
 - tileGridSize为直方图均衡化的网格大小，默认值为(8,8)
+
+
+## 6.3 TwoDimentionHistogram
+二维直方图统计像素的色相和饱和度
+### 6.3.1 OpenCV_TwoDimentionHistogram
+OpenCV的二维直方图查找表达式如下
+
+    cv2.calcHist(image,channels,histSize,ranges)
+        return hist
+
+- hist为返回的直方图，可直接使用```cv2.imshow()```显示
+- image为原图像，需要从BGR色彩空间转换为HSV色彩空间，输入形式为[image]
+- channels为图像通道，参数为[0,1]时，同时处理色相和饱和度
+- histSiz设置BINS的值为[180，256]代表色相为180，饱和度为256
+- ranges设置为[0,180,0,255]表示色相取值[0,180]，饱和度取值[0,256]
+
+
+### 6.3.2 NumPy_TwoDimentionHistogram
+
+NumPy的二维直方图查找表达式如下
+
+    np.histogram2d(x,y,bins,ranges)
+        return hist,xedges,yedges
+
+
+- hist为返回的直方图，大小256的一维数组形式，保存了各个灰度级的数量
+- x和y为原图对应通道转换成的一维数组
+- bins为灰度级分组数量，例如[180,256]
+- range为像素值范围，例如[[0,180],[0,256]]
+- xedges为返回的x的直方图的bins边界值
+- yedges为返回的y的直方图的bins边界值
+
+
+
+
