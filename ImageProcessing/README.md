@@ -751,3 +751,35 @@ NumPy的二维直方图查找表达式如下
 
 
 
+# 7 TemplateMatching&Split
+## 7.1 TemplateMatching
+模板图像在输入图像中滑动，遍历所有像素进行比较，找出和模板最匹配的部分
+### 7.1.1 SingleTemplateMatching
+只存在一个可能匹配的结果
+
+OpenCV的匹配表达式如下
+
+    cv2.matchTemplate(image,templ,method)
+        return result
+
+- image要求为8位或32位浮点类型
+- templ为模板图像，数据类型要求与image相同并小于image
+- method为匹配方法
+    - cv2.TM_SQDIFF_NORMED:归一化方差匹配
+    - cv2.TM_SQDIFF:以方差结果为依据进行匹配，完全匹配时为0，否则为一个极大值
+    - cv2.TM_CCORR_NORMED:归一化相关匹配
+    - cv2.TM_CCORR:相关匹配，输入图像与模板图像相乘，成绩越大匹配度越高，为0时匹配度最低
+    - cv2.TM_CCOEFF_NORMED:归一化相关系数匹配
+    - cv2.TM_CCOEFF:相关系数匹配，输入图像与其均值的相关值和模板图像与其均值的相关值匹配，为1表示完美匹配，-1为糟糕，0为无相关性
+- result为返回结果，它是一个numpy.ndarry对象。若输入图像的大小为W*H,模板图像大小为w * h,则result的大小为( W- w+1)x(H-h+1)，其中的每个值都表示对应位置的匹配结果。当匹配方法为cv2.TM_ SQDIFF 或cv2.TM_ SQDIFF_ NORMED时，匹配结果值越小说明匹配度越高，反之则说明匹配度越低。当匹配方法为cv2.TM_CCORR、Cv2.TM_CCORR_NORMED、cv2.TM_CCOEFF或cv2.TM_CCOEFF_NORMED时，匹配结果值越小说明匹配度越低，反之则说明匹配度越高。
+
+OpenCV处理匹配结果的表达式如下
+
+    cv2.minMaxLoc(src)
+        return minVal,maxVal,minLoc,maxLoc
+
+- src为```cv2.matchTemplate```的返回结果
+- minVal为src中的最小值，不存在时为NULL
+- maxVal为src中的最大值，不存在时为NULL
+- minLoc为src中的最小值的位置，不存在时为NULL
+- maxLoc为src中的最大值的位置，不存在时为NULL
