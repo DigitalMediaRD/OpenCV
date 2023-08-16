@@ -878,3 +878,60 @@ grabCut()实现前景提取，函数表达式如下
     - cv2.GC_INIT_WITH_MASK
     - cv2.GC_EVAL修复模式
     - cv2.GC_EVAL_FREEZE_MODEL固定模式
+
+
+
+# 8 FeatureDetection
+## 8.1 AngleDetection
+图像中的角检测
+### 8.1.1 HarrisAngleDetection
+cornerHarris()实现图像角检测，函数表达式如下
+
+    cv2.cornerHarris(src,blockSize,ksize,k)
+        return dst
+
+- dst为返回结果,numpy.ndarray对象，大小和src相同，每个数组元素对应一个像素点，值越大代表为角的概率越高
+- src为8位单通道或浮点值图像
+- blockSize为邻域大小，值越大代表检测出的角占区域越大
+- ksize为哈里斯角检测器使用的Sobel算子的中孔参数
+- k为哈里斯角检测器的自由参数，ksize和k影响检测的灵敏度，值越小检测的角越多，但准确度降低
+
+### 8.1.2 ModifyHarrisAngleDetection
+对哈里斯角检测的优化，以便找出更准确的角的位置
+
+cornerSubPix()实现图像角检测的优化，函数表达式如下
+
+    cv2.cornerSubPix(src,corner,winSize,zeroZone,criteria)
+        return dst
+
+- dst为返回结果,存储优化后的角信息
+- src为8位单通道或浮点值图像
+- corner为哈里斯角的质心坐标
+- winSize为搜索窗口边长的一半
+- zeroZone为零值边长的一半
+- criteria为优化查找的终止条件
+
+### 8.1.3 Shi-TomasiAngleDetection
+对哈里斯角检测的优化
+
+goodFeaturesToTrack()使用Shi-Tomasi查找图像中的N个最强角，函数表达式如下
+
+    cv2.goodFeaturesToTrack(src,maxCorner,qualityLevel,minDistance)
+        return dst
+
+- dst为返回结果,存储检测到的角在原图像中的坐标
+- src为8位单通道或浮点值图像
+- maxCorner为返回的角的最大数量
+- qualityLevel为可接受的角的最低质量
+- minDistance为返回的角之间的最小欧几里得距离
+
+
+## 8.2 FeaturesPointDetection
+### 8.2.1 FASTFeaturesDetection
+根据像素周围16个像素的强度和阈值等参数判断像素是否为关键点，```cv2.FastFeatureDetector_create()```创建一个FAST对象，然后调用FAST对象的```detect()```执行关键点检测，该方法返回一个关键点列表。每个关键点对象均包含了关键点的角度、坐标、响应强度和邻域大小等信息
+
+### 8.2.2 SIFTFeaturesDetection
+图像中的角具有旋转不变特征，但放大时可能产生变化。SIFT用于查找图像中初度不变特征，返回图像中的关键点。```cv2.SIFT_create()```创建一个SIFT对象，然后调用SIFT对象的```detect()```执行关键点检测
+
+### 8.2.3 ORBFeaturesDetection
+基础上再进行改进，```cv2.ORB_create()```创建一个ORB对象，然后调用ORB对象的```detect()```执行关键点检测
