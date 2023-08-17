@@ -935,3 +935,97 @@ goodFeaturesToTrack()使用Shi-Tomasi查找图像中的N个最强角，函数表
 
 ### 8.2.3 ORBFeaturesDetection
 基础上再进行改进，```cv2.ORB_create()```创建一个ORB对象，然后调用ORB对象的```detect()```执行关键点检测
+
+## 8.3 FeaturesMatching
+获得图像的关键点后可通过计算得到关键点的描述符。关键点描述符可用于图像的特征匹配。通常，在计算图A是否包含图B的特征区域时，将图A称为训练图像，将图B称为查询图像。图A的关键点描述符称为训练描述符,图B的关键点描述符称为查询描述符
+### 8.3.1 Brute-Force
+暴力匹配器使用描述符进行特征比较。在比较时，暴力匹配器首先在查询描述符中取一个关键点的描述符,将其与训练描述符中的所有关键点描述符进行比较，每次比较后会给出一个距离值,距离是小的值对应最佳匹配结果。所有描述符比较完后，匹配器返回匹配结果列表
+
+BFMatcher_create()函数用于创建暴力匹配器，表达式如下
+
+    cv2.BFMatcher_create([normType[,crossCheck]])
+        return bf
+
+- bf为返回的暴力匹配器对象。
+- normType为距离测量类型，默认为cv2.NORM_L2。通常，SIFT、SURF 等描述符使用cv2.NORM_L1或cv2.NORM_L2，ORB、BRISK或BRIEF等描述符使用cv2.NORM_HAMMING
+- crossCheck默认为False，匹配器为每个查询描述符找到k个距离最近的匹配描述符。crossCheck为True时，只返回满足交叉验证条件的匹配结果
+
+暴力匹配器对象的match()方法返回每个关键点的最佳匹配结果，表达式如下
+
+    bf.match(des1,des2)
+        return ms
+
+- ms为返回的匹配结果，它是一个DMatch对象列表。每个DMatch对象表示关键点的一个匹配结果,其distance属性表示距离,值越小匹配度越高
+- des1为查询描述符
+- des2为训练描述符
+
+获得匹配结果后，可调用cv2.drawMatches()或 cv2.drawMatchesKnn()函数绘制匹配结果图像，表达式如下
+
+    outImg = cv2.drawMatches(img1,keypoints1,img2, keypoints2,matches1to2,outImg[, matchcolor[, singlePointColor[, matchesMask[, flags]]]])
+    outImg = cv2.drawMatchesKnn(img1, keypoints1, img2, keypoints2,matches1to2,outImg[, matchcolor[, singlePointcolor[, matchesMask[,flags]]]])
+
+- outlmg为返回的绘制结果图像,图像中查询图像与训练图像中匹配的关键点和两点之间的连线为彩色
+- img1为查询图像
+- keypoints1为img1的关键点，img2为训练图像
+- keypoints2为img2的关键点
+- matches1to2为img1与img2的匹配结果
+- matchColor为关键点和连接线的颜色，默认使用随机颜色
+- singlePointColor为单个关键点的颜色，默认使用随机颜色
+- matchesMask为掩模，用于决定绘制哪些匹配结果，默认为空,表示绘制所有匹配结果
+- flags为标志，可设置为下列参数值
+    - cv2.DrawMatchesFlags_DEFAULT:默认方式，绘制两个源图像、匹配项和单个关键点,没有围绕关键点的圆以及关键点的大小和方向。
+    - cv2.DrawMatchesFlags_DRAW_OVER_OUTIMG:根据输出图像的现有内容进行绘制
+    - cv2.DrawMatchesFlaas_NOT_DRAW_SINGLE_POINTS:不会绘制单个关键点
+    - cv2.DrawMatchesFlaas_DRAW_RICH_KFYPOINTS:在关键点周围绘制具有关键点大小和方向的圆圈
+
+暴力匹配器对象的knnMatch()方法可返回指定数量的最佳匹配结果，其基本格式如下
+    bf.knnMatch(des1, des2,k=n)
+        return ms
+
+- ms为返回的匹配结果列表，每个列表元素是一个子列表，包含了由参数k指定个数的DMatch对象
+- des1为查询描述符
+- des2为训练描述符
+- k为返回的最佳匹配个数
+
+### 8.3.2 FLANN
+FLANN(Fast Library for Approximate Nearest Neighbors)为近似最近邻的快速库，FLANN特征匹配算法比其他的最近邻算法更快。在创建FLANN匹配器时，需要传递两个字典参数:index_params和search_params
+
+index_params用于指定索引树的算法类型和数量，SIFT和SURF可使用下面代码来设置
+
+    FLANN_INDEX_KDTREE=1
+    index_params=dict(algorithm=FLANN_INDEX_KDTREE,trees=5)
+
+ORB算法设置如下
+
+    FLANN_INDEX_LSH=6
+    index_params=dict(algorithm=FLANN_INDEX_LSH,table_number=6,key_size=12,multi_probe_level=1)
+
+search_params用于指定索引树的遍历次数，遍历次数越多匹配结果越精确，通常设置为50即可
+
+    search_params=dict(checks=50)
+
+
+
+## 8.4 TargetFinding
+经过特征匹配后，可找到查询图像在训练图像中的最佳匹配，从而可在训练图像中精确查找到查询图像，获得最佳匹配结果后，调用cv2.findHomography()函数执行查询图像和训练图像的透视转换，再调用cv2.perspectiveTransform()函数执行向量的透视矩阵转换，可获得查询图像在训练图像中的位置
+
+cv2.findHomography()函数表达式如下
+    
+    cv2.findHomography(srcPoints, dstPoints[, method[,ransacReprojThreshold]])
+        return retv,mask
+
+- retv为返回的转换矩阵
+- mask为返回的查询图像在训练图像中的最佳匹配结果掩模
+- srcPoints为查询图像匹配结果的坐标
+- dstPoints为训练图像匹配结果的坐标
+- method为用于计算透视转换矩阵的方法
+- ransacReprojThreshold为可允许的最大重投影误差
+
+cV2.perspectiveTransform()函数表达式如下
+    
+    cv2.perspectiveTransform(src,m)
+        return dst
+
+- src为输入的2通道或3通道浮点类型的数组
+- m是大小为3×3或4×4的浮点类型的转换矩阵，如使用cv2.findHomography()返回的转换矩阵
+- dst为输出结果数组，大小和类型与src相同
