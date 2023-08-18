@@ -1021,7 +1021,7 @@ cv2.findHomography()函数表达式如下
 - method为用于计算透视转换矩阵的方法
 - ransacReprojThreshold为可允许的最大重投影误差
 
-cV2.perspectiveTransform()函数表达式如下
+cv2.perspectiveTransform()函数表达式如下
     
     cv2.perspectiveTransform(src,m)
         return dst
@@ -1029,3 +1029,142 @@ cV2.perspectiveTransform()函数表达式如下
 - src为输入的2通道或3通道浮点类型的数组
 - m是大小为3×3或4×4的浮点类型的转换矩阵，如使用cv2.findHomography()返回的转换矩阵
 - dst为输出结果数组，大小和类型与src相同
+
+# 9 FacialDetection&Recognition
+## 9.1 FacialDetection
+### 9.1.1 HaarFacialDetection
+OpenCV提供的Haar级联分类器可用于进行人脸检测，在OpenCV源代码中的```data\haarcascades```文件夹中包含训练好的Haar级联分类器文件
+- haarcascade_eye.xml:人眼检测
+- haarcascade_eye_tree_eyeglasses.xml:眼镜检测
+- haarcascade_frontalcatface.xml:猫脸检测
+- haarcascade_frontalface_alt.xml:人脸检测
+- haarcascade_frontalface_default.xml:人脸检测
+- haarcascade_profileface.xml:侧脸检测
+
+cv2.CascadeClassifier()函数用于加载分类器，表达式如下
+
+    cv2.CascadeClassifier(filename)
+        return faceClassifier
+
+- faceClassifier为返回的级联分类器对象
+- filename为读取的文件名
+
+级联分类器对象的detectMultiScale()方法用于执行检测，其基本格式如下
+
+    faceClassifier.detectMultiScale(image[,scaleFactor[,minNeighbors[,flags[,minSize[,maxSize]]]]])
+        return objects
+
+- objects为返回的目标矩形，矩形中为人脸
+- image为输入图像，通常为灰度图像
+- scaleFactor为图像缩放比例
+- minNeighbors为构成目标矩形的最少相邻矩形个数
+- flags在低版本的OpenCV 1.x中使用，高版本中通常省略该参数
+- minSize为目标矩形的最小尺寸
+- maxSize为目标矩形的最大尺寸
+
+
+### 9.1.2 DeepLearningFacialDetection
+
+OpenCV的深度神经网络(Deep Neural Network，DNN)模块提供了基于深度学习的人脸检测器，DNN模块中使用了广受欢迎的深度学习框架，包括Caffe、TensorFlow、Torch 和 Darknet 等。
+
+OpenCV提供了两个预训练的人脸检测模型:Caffe和TensorFlow模型
+- Caffe模型需加载以下两个文件
+    - deploy.prototxt:定义模型结构的配置文件
+    - res10_300x300_ssd_iter_140000_fp16.caffemodel:包含实际层权重的训练模型文件
+
+- TensorFlow模型需加载以下两个文件
+    - opencv_face_detector.pbtxt:定义模型结构的配置文件
+    - opencv_face_detector_uint8.pb:包含实际层权重的训练模型文件
+
+在OpenCV 源代码的```sources\samples\dnn\face_detector```文件夹中提供了模型配置文件，但未提供训练模型文件。可运行该文件夹中的```download_weights.py```下载上述的两个训练模型文件
+
+使用预训练的模型执行人脸检测时主要包含下列步骤。
+- 调用cv2.dnn.readNetFromCaffe()或cv2.dnn.readNetFromTensorflow()函数加载模型，创建检测器
+- 调用cv2.dnn.blobFromImage()函数将待检测图像转换为图像块数据
+- 调用检测器的setInput()方法将图像块数据设置为模型的输入数据
+- 调用检测器的forward()方法执行计算，获得预测结果
+- 将可信度高于指定值的预测结果作为检测结果，在原图像中标注人脸，同时输出可信度作参考
+
+## 9.2 FacialRecognition
+### 9.2.1 EigenFacialRecognition
+EigenFaces(特征)识别使用主要成分分析(Princinal Comnonent Analvsis,PCA)方法将人脸数据从高维处理成低维后，获得人脸数据的主要成分信息，进而完成人脸识别
+
+EigenFaces人脸识别的基本步骤如下
+- 调用cv2.face.EigenFaceRecoanizer_create()方法创建EiqenFaces识别器
+- 调用识别器的train()方法以便使用已知图像训练模型
+- 调用识别器的predict()方法以便使用未知图像讲行识别，确认其身份
+
+cv2.face.EigenFaceRecoanizer_create的表达式如下
+
+    cv2.face.EigenFaceRecoanizer_create([num_components[,threshold]])
+        return recognizer
+
+- recognizer为返回的EigenFaces识别器对象
+- num_components为分析时的分量个数:默认为0，表示根据实际输入决定
+- threshold为人脸识别时采用的阈值
+
+EigenFaces识别器train()方法的基本格式如下
+
+    recognizer.train(src,labels)
+
+- src为用于训练的已知图像数组，所有图像必须为灰度图像且大小要相同
+- labels为标签数组，与已知图像数组中的人脸一一对应，同一个人的人脸标签应设置为相同值
+
+EigenFaces识别器predict()方法的基本格式如下
+    recognizer.predict(testimg)
+        return label, confidence
+
+
+- testimg为未知人脸图像，必须为灰度图像，且与训练图像大小相同
+- label为返回的标签值
+- confidence为返回的可信度，表示未知人脸和模型中已知人脸之间的距离。0表示完全匹配,低于5000可认为是可靠的匹配结果
+
+
+
+### 9.2.2 FisherFacialRecognition
+
+FisherFaces使用线性判别分析(Linear Discriminant Analysis,LDA)方法实现人脸识别，基本步骤如下
+- 调用cv2.face.FisherFaceRecognizer_create()函数创建FisherFaces识别器
+- 调用识别器的train()方法以便使用已知图像训练模型
+- 调用识别器的predict()方法以便使用未知图像进行识别，确认其身份
+
+在OpenCV中，cv2.face.EigenFaceRecognizer类和cv2.face.FisherFaceRecognizer类同属于cv2.face.BasicFaceRecognizer类、cv2.face.FaceRecognizer类和cv2.Algorithm类的子类，对应的×xxx_create()、train()和predict()等方法的基本格式与用法相同
+### 9.2.3 LBPHFacialRecognition
+LBPH算法处理图像的基本原理如下
+- 取像素×周围(邻域)的8个像素与其比较，像素值比像素×大的取0，否则取1。将8个像素对应的0、1连接得到一个8位二进制数，将其转换为十进制数，作为像素×的LBP值。
+- 对图像的所有像素按相同的方法进行处理，得到整个图像的LBP图像，该图像的直方图就是图像的LBPH
+
+LBPH人脸识别的基本步骤如下
+- 调用cv2.face.LBPHFaceRecognizer_create()函数创建LBPH识别器
+- 调用识别器的train()方法以便使用已知图像训练模型
+- 调用识别器的predict()方法以便使用未知图像进行识别，确认其身份
+
+cv2.face.BPHFaceRecognizer_create()函数的基本格式如下
+
+    cv2.face.LBPHFaceRecognizer create([.radius[,neighbors[,grid_×[,grid_y[,threshold]]]]])
+        return recognizer
+
+- recognizer为返回的LBPH识别器对象
+- radius为邻域的半径大小
+- neighbors为邻域内像素点的数量，默认为8
+- grid_x为将LBP图像划分为多个单元格时，水平方向上的单元格数量，默认为8
+- grid_y为将LBP图像划分为多个单元格时，垂直方向上的单元格数量，默认为8
+- threshold为人脸识别时采用的阈值
+
+LBPH识别器train()方法的基本格式如下
+
+    recognizer.train(src,labels)
+
+
+- src为用于训练的已知图像数组。所有图像必须为灰度图像，且大小要相同
+- labels为标签数组，与已知图像数组中的人脸一一对应，同一个人的人脸标签应设置为相同值
+
+
+LBPH识别器predict()方法的基本格式如下
+
+    recognizer.predict(testimg)
+        return label, confidence
+
+- testimg为未知人脸图像，必须为灰度图像，且与训练图像大小相同
+- label为返回的识别标签值
+- confidence为返回的可信程度，表示未知人脸和模型中已知人脸之间的距离。0表示完全匹配,低于50可认为是非常可靠的匹配结果
