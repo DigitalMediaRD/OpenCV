@@ -5,7 +5,7 @@
 
 ## Conda
 
-其特点在于可创建多个不同版本的python环境实现互相独立的多环境管理；缺点在于多个虚拟环境的创建将占用大量硬盘空间，并且当涉及其他需要额外进行编译操作的程序时，操作处理起来略微繁琐
+其特点在于可创建多个不同版本的python环境实现互相独立的多环境管理；缺点在于多个虚拟环境的创建将占用大量硬盘空间，当涉及需要额外进行编译操作的程序时，处理略繁琐
 
 
 - [Anaconda](https://www.anaconda.com/)/[Minconda](https://docs.conda.io/en/latest/miniconda.html)，作用类似，前者相比后者集成了其他开发工具和可视化界面的操作；后者仅包括精简的命令行窗口功能
@@ -29,7 +29,13 @@ Anaconda Prompt创建新的虚拟环境
         conda activate [name]
 
         #删除某个虚拟环境
-        conda remove -n new --all
+        conda remove -n [name] --all
+
+### 导出为可执行程序
+
+导出后缀为```.exe```的可执行程序
+
+        pip install pyinstaller
 
 ### 其他设置
 
@@ -69,8 +75,8 @@ Anaconda/Minconda的在线资源安装保存路径默认在子目录下，若需
         conda config --show
 
 
-### 暂无需要接触创建虚拟环境可跳过此小节
-Conda移植虚拟环境到其他设备的[操作方法](https://blog.csdn.net/buweifeng/article/details/124733123?utm_medium=distribute.pc_relevant.none-task-blog-2~default~baidujs_baidulandingword~default-1-124733123-blog-115385868.t0_layer_searchtargeting_sa&spm=1001.2101.3001.4242.2&utm_relevant_index=3)
+### 虚拟环境移植
+Conda移植虚拟环境到同类型操作系统的其他设备[方法](https://blog.csdn.net/buweifeng/article/details/124733123?utm_medium=distribute.pc_relevant.none-task-blog-2~default~baidujs_baidulandingword~default-1-124733123-blog-115385868.t0_layer_searchtargeting_sa&spm=1001.2101.3001.4242.2&utm_relevant_index=3)
 
 	#安装打包资源库
 	conda install -c conda-forge conda-pack
@@ -100,4 +106,4 @@ Conda移植虚拟环境到其他设备的[操作方法](https://blog.csdn.net/bu
         在命令行窗口界面使用pip安装opencv_contrib_python
         若执行import cv2 命令无报错，则说明安装成功
 
-
+若安装失败，跳转此处进行操作
