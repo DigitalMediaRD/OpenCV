@@ -16,6 +16,21 @@
 
 - [Python资源库在线下载命令](https://www.runoob.com/w3cnote/python-pip-install-usage.html)
 
+### 创建虚拟环境
+Anaconda Prompt创建新的虚拟环境
+
+        #[]内为自定义参数，代表新环境名称，版本号
+        conda create -n [name] python=[version]
+
+        #查看所有创建的虚拟环境
+        conda info -e 
+
+        #激活某个虚拟环境
+        conda activate [name]
+
+        #删除某个虚拟环境
+        conda remove -n new --all
+
 ### 其他设置
 
 [其他](https://blog.csdn.net/javastart/article/details/102563461)
@@ -42,6 +57,17 @@
         # 豆瓣源
         pip install 本次下载的资源包名称 -i http://pypi.douban.com/simple
 
+Anaconda/Minconda的在线资源安装保存路径默认在子目录下，若需要修改资源保存路径则需要将新目标文件夹的访问权限设置为完全控制，并执行下列命
+
+        #[]内的路径参数为修改后，创建虚拟环境的安装路径
+        conda config --add envs_dirs [E:\Projects\PythonEnvs]
+
+        #[]内的路径参数为修改后，下载资源包的保存路径
+        conda config --add pkgs_dirs [E:\Projects\Anaconda\PythonEnvs]
+
+        #查看配置信息，确认是否修改成功
+        conda config --show
+
 
 ### 暂无需要接触创建虚拟环境可跳过此小节
 Conda移植虚拟环境到其他设备的[操作方法](https://blog.csdn.net/buweifeng/article/details/124733123?utm_medium=distribute.pc_relevant.none-task-blog-2~default~baidujs_baidulandingword~default-1-124733123-blog-115385868.t0_layer_searchtargeting_sa&spm=1001.2101.3001.4242.2&utm_relevant_index=3)
@@ -57,7 +83,7 @@ Conda移植虚拟环境到其他设备的[操作方法](https://blog.csdn.net/bu
 	# 激活环境
 	conda activate /yourpath/bin/activate 
 	# 查看python的路径
-	which python
+	python --version
 
 
 
