@@ -5,7 +5,7 @@
 
 ## Conda
 
-其特点在于可创建多个不同版本的python环境实现互相独立的多环境管理；缺点在于多个虚拟环境的创建将占用大量硬盘空间，当涉及需要额外进行编译操作的程序时，处理略繁琐
+其特点在于可创建多个不同版本的python环境实现互相独立的多环境管理；缺点在于多个虚拟环境的创建将占用大量硬盘空间，当涉及需要额外进行编译操作的程序时，处理略繁琐。因此避免安装在系统盘，或者定期清理安装在系统盘的资源包
 
 
 - [Anaconda](https://www.anaconda.com/)/[Minconda](https://docs.conda.io/en/latest/miniconda.html)，作用类似，前者相比后者集成了其他开发工具和可视化界面的操作；后者仅包括精简的命令行窗口功能
@@ -37,11 +37,32 @@ Anaconda Prompt创建新的虚拟环境
 
         pip install pyinstaller
 
-### 其他设置
+        pyinstaller -F [path/FileName.py]
+
+若执行打包后的程序出现模块丢失，可能是部分模块安装路径不统一。按照下列命令查询安装路径，并尝试卸载模块重新安装
+
+        python
+
+        import [module]
+
+        print([module].__file__)
+
+### 在线下载
 
 [其他](https://blog.csdn.net/javastart/article/details/102563461)
 
-- 在线资源库更换为国内资源：打开 ```Conda窗口界面``` ，永久更换在线资源链接输入下列语句之一
+Anaconda/Minconda的在线资源安装保存路径默认在子目录下，若需要修改资源保存路径则需要将新目标文件夹的访问权限设置为完全控制，并执行下列命令
+
+        #[]内的路径参数为修改后，创建虚拟环境的安装路径
+        conda config --add envs_dirs [E:\Projects\PythonEnvs]
+
+        #[]内的路径参数为修改后，下载资源包的保存路径
+        conda config --add pkgs_dirs [E:\Projects\Anaconda\PythonEnvs]
+
+        #查看配置信息，确认是否修改成功
+        conda config --show
+
+- 在线资源库更换为国内资源：打开 ```Anaconda(Miniconda3) Prompt``` ，永久更换在线资源链接输入下列语句之一
 
         # 清华源
         pip config set global.index-url https://pypi.tuna.tsinghua.edu.cn/simple
@@ -63,16 +84,7 @@ Anaconda Prompt创建新的虚拟环境
         # 豆瓣源
         pip install 本次下载的资源包名称 -i http://pypi.douban.com/simple
 
-Anaconda/Minconda的在线资源安装保存路径默认在子目录下，若需要修改资源保存路径则需要将新目标文件夹的访问权限设置为完全控制，并执行下列命
 
-        #[]内的路径参数为修改后，创建虚拟环境的安装路径
-        conda config --add envs_dirs [E:\Projects\PythonEnvs]
-
-        #[]内的路径参数为修改后，下载资源包的保存路径
-        conda config --add pkgs_dirs [E:\Projects\Anaconda\PythonEnvs]
-
-        #查看配置信息，确认是否修改成功
-        conda config --show
 
 
 ### 虚拟环境移植
@@ -101,9 +113,9 @@ Conda移植虚拟环境到同类型操作系统的其他设备[方法](https://b
 
         pip install opencv-python
 
-- [OpenCV官方安装包](https://opencv.org/releases/)，解压后将```\build\python\cv2```内的```cv.pyd```文件复制到python安装路劲下的```\Lib\site-packages\cv2```中
+- [OpenCV官方安装包](https://opencv.org/releases/)或[压缩包](https://kdocs.cn/l/ciofIJvdWvrU)，解压后将```\build\python\cv2```内的```cv.pyd```文件复制到python安装路径下的```\Lib\site-packages\cv2```中
 
         在命令行窗口界面使用pip安装opencv_contrib_python
         若执行import cv2 命令无报错，则说明安装成功
 
-若安装失败，跳转此处进行操作
+
