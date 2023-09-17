@@ -15,7 +15,7 @@ def ImageRead():
 
 
 def ImageWrite():
-    nparray=np.random.default_rng()
+    nparray=np.random.default_rng()#初始化，构建矩阵对象
     img = nparray.integers(-255, 255, size=(700, 700))
     cv2.imwrite('res/img001-w.png',img)
     print(img)
@@ -36,4 +36,4 @@ def ReadImgSaveAsOtherType():
     cv2.waitKey(0)
 
 
-ReadImgSaveAsOtherType()
+ImageShow()
