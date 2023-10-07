@@ -31,6 +31,8 @@ def WriteVideo():
         #print(success)
     vc.release()
 
+
+
 WriteVideo()
 
 def CameraCapture():
