@@ -53,7 +53,7 @@ Anaconda Prompt创建新的虚拟环境
 
 [其他](https://blog.csdn.net/javastart/article/details/102563461)
 
-Anaconda/Minconda的在线资源安装保存路径默认在子目录下，若需要修改资源保存路径则需要将新目标文件夹的访问权限设置为完全控制，并执行下列命令
+Anaconda/Miniconda的在线资源安装保存路径默认在子目录下，若需要修改资源保存路径则需要将新目标文件夹的访问权限设置为完全控制，并执行下列命令
 
         #[]内的路径参数为修改后，创建虚拟环境的安装路径
         conda config --add envs_dirs [E:\Projects\PythonEnvs]
@@ -86,8 +86,11 @@ Anaconda/Minconda的在线资源安装保存路径默认在子目录下，若需
         # 豆瓣源
         pip install 本次下载的资源包名称 -i http://pypi.douban.com/simple
 
-
-
+Pycharm创建工程调用Anaconda创建的虚拟环境流程如下  
+创建新工程时选择黄框内代表已存在操作系统中的虚拟环境
+![](https://github.com/DigitalMediaRD/OpenCV/blob/main/res/001.png)
+在左侧列表中选择对应的选项，下拉菜单中根据实际需要选择关联的编译器
+![](https://github.com/DigitalMediaRD/OpenCV/blob/main/res/002.png)
 
 ### 虚拟环境移植
 Conda移植虚拟环境到同类型操作系统的其他设备[方法](https://blog.csdn.net/buweifeng/article/details/124733123?utm_medium=distribute.pc_relevant.none-task-blog-2~default~baidujs_baidulandingword~default-1-124733123-blog-115385868.t0_layer_searchtargeting_sa&spm=1001.2101.3001.4242.2&utm_relevant_index=3)
